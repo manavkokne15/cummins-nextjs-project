@@ -1,6 +1,6 @@
 "use client";
 
-import MapComponent from "../components/map/MapComponent";
+import MapComponent from "./map/MapComponent";
 
 export default function HomePage() {
   return (
