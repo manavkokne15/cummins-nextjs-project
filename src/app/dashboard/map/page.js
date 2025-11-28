@@ -1,12 +1,12 @@
 "use client";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import HeatmapPage from "@/components/dashboard/heatmap";
+import MapComponent from "@/components/map/MapComponent";
 
-export default function HeatmapRoute() {
+export default function MapRoute() {
   return (
     <DashboardLayout>
-      <HeatmapPage />
+      <MapComponent />
     </DashboardLayout>
   );
 }

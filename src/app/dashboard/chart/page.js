@@ -1,7 +1,7 @@
 "use client";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import ChartPage from "@/components/dashboard/ChartPage";
+import ChartPage from "@/components/dashboard/chart";
 
 export default function ChartRoute() {
   return (

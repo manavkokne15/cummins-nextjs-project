@@ -6,10 +6,12 @@ import { layoutStyle } from '@/constants/mapConfig';
 import MapLegendPanel from './MapLegendPanel';
 import MapView from './MapView';
 
+const libraries = ['places', 'visualization'];
+
 export default function MapComponent() {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
+    libraries: libraries,
   });
 
   const [map, setMap] = useState(null);

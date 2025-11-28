@@ -26,6 +26,7 @@ export async function parseVehicleCSV() {
         city: record.City,
         vehicleCount: parseInt(record.Vehicle_Count) || 0,
         vehicleClass: record.Vehicle_Class,
+        vehicleType: record.Vehicle_Type,
         fuelType: record.Fuel_Type,
       });
     }
@@ -242,20 +243,32 @@ export function getUniqueVehicleClasses(vehicles) {
 
 /**
  * Get color for vehicle class
- * @param {string} vehicleClass - Vehicle class name
+ * @param {string} vehicleClass - Vehicle class number (6, 7, 8)
  * @returns {string} Hex color code
  */
 export function getClassColor(vehicleClass) {
   const colorMap = {
-    'Light Duty': '#3b82f6',      // Blue
-    'Medium Duty': '#8b5cf6',     // Purple
-    'Heavy Duty': '#ef4444',      // Red
-    'Class 7': '#f59e0b',         // Amber
-    'Class 8': '#ec4899',         // Pink
-    'Unknown': '#9ca3af',         // Gray
+    '6': '#10b981',     // Bright Green - Medium Duty
+    '7': '#f59e0b',     // Bright Orange - Heavy-Medium Duty
+    '8': '#ef4444',     // Bright Red - Heavy Duty
   };
   
   return colorMap[vehicleClass] || '#3b82f6';
+}
+
+/**
+ * Get vehicle type description for class number
+ * @param {string} vehicleClass - Vehicle class number (6, 7, 8)
+ * @returns {string} Vehicle type description
+ */
+export function getVehicleTypeDescription(vehicleClass) {
+  const typeMap = {
+    '6': 'Medium Duty',
+    '7': 'Heavy-Medium Duty',
+    '8': 'Heavy Duty',
+  };
+  
+  return typeMap[vehicleClass] || 'Unknown';
 }
 
 /**
