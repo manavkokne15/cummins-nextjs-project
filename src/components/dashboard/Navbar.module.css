@@ -1,32 +1,11 @@
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  padding: 0 32px;
-  background: #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  gap: 24px;
 }
 
-/* Left Section - Logo */
-.navLeft {
-  display: flex;
-  align-items: center;
-  min-width: 240px;
-}
-
+/* Logo specific styles that aren't covered by Tailwind */
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  /* Tailwind utilities handle flex, align-items, gap, text-decoration, cursor, transition */
 }
 
 .logo:hover {
