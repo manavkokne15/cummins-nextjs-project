@@ -28,7 +28,7 @@ const libraries = ['places', 'visualization'];
 export default function HeatmapVisualization() {
   const [vehicles, setVehicles] = useState([]);
   const [vehicleClasses, setVehicleClasses] = useState([]);
-  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [selectedClass, setSelectedClass] = useState(null);
   const [loading, setLoading] = useState(true);
   const [mapInstance, setMapInstance] = useState(null);
   const heatmapLayerRef = useRef(null);
@@ -50,7 +50,7 @@ export default function HeatmapVisualization() {
         const classes = getUniqueVehicleClasses(parsedVehicles);
         console.log('Vehicle classes found:', classes);
         setVehicleClasses(classes);
-        setSelectedClasses(classes);
+        setSelectedClass(classes[0] || null);
       } catch (error) {
         console.error('Error loading vehicle data:', error);
       } finally {
@@ -73,39 +73,31 @@ export default function HeatmapVisualization() {
     const max = Math.max(...aggregated.map(loc => loc.totalVehicles), 1);
     console.log('Max vehicle count:', max);
 
-    const data = aggregated
+    const data = selectedClass ? aggregated
       .filter(location => {
-        return selectedClasses.some(c => location.byClass[c] && location.byClass[c] > 0);
+        return location.byClass[selectedClass] && location.byClass[selectedClass] > 0;
       })
       .flatMap(location => {
-        return selectedClasses
-          .filter(c => location.byClass[c] && location.byClass[c] > 0)
-          .flatMap(vehicleClass => {
-            const count = location.byClass[vehicleClass];
-            const weight = getHeatmapIntensity(count, max);
-            const pointCount = Math.max(1, Math.round(weight * 8));
-            
-            return Array(pointCount).fill(0).map(() => ({
-              location: new window.google.maps.LatLng(
-                location.lat + (Math.random() - 0.5) * 0.1,
-                location.lng + (Math.random() - 0.5) * 0.1
-              ),
-              weight: weight * 100,
-            }));
-          });
-      });
+        const count = location.byClass[selectedClass];
+        const weight = getHeatmapIntensity(count, max);
+        const pointCount = Math.max(1, Math.round(weight * 8));
+        
+        return Array(pointCount).fill(0).map(() => ({
+          location: new window.google.maps.LatLng(
+            location.lat + (Math.random() - 0.5) * 0.1,
+            location.lng + (Math.random() - 0.5) * 0.1
+          ),
+          weight: weight * 100,
+        }));
+      }) : [];
 
     console.log('Heatmap data points:', data.length, data.slice(0, 5));
     return { locations: aggregated, maxVehicleCount: max, heatmapData: data };
-  }, [vehicles, selectedClasses, isLoaded]);
+  }, [vehicles, selectedClass, isLoaded]);
 
-  // Handle class filter toggle
-  const toggleClass = useCallback((vehicleClass) => {
-    setSelectedClasses(prev => {
-      return prev.includes(vehicleClass)
-        ? prev.filter(c => c !== vehicleClass)
-        : [...prev, vehicleClass];
-    });
+  // Handle class selection (single class only)
+  const selectClass = useCallback((vehicleClass) => {
+    setSelectedClass(vehicleClass);
   }, []);
 
   // Update heatmap layer
@@ -120,9 +112,9 @@ export default function HeatmapVisualization() {
       heatmapLayerRef.current = null;
     }
 
-    // If no data or no selected classes, just remove the layer and return
-    if (heatmapData.length === 0 || selectedClasses.length === 0) {
-      console.log('No heatmap data or no selected classes, layer removed');
+    // If no data or no selected class, just remove the layer and return
+    if (heatmapData.length === 0 || !selectedClass) {
+      console.log('No heatmap data or no selected class, layer removed');
       return;
     }
 
@@ -141,7 +133,7 @@ export default function HeatmapVisualization() {
     } catch (error) {
       console.error('Error creating heatmap layer:', error);
     }
-  }, [mapInstance, isLoaded, heatmapData, selectedClasses]);
+  }, [mapInstance, isLoaded, heatmapData, selectedClass]);
 
   // Fit map to bounds
   const onMapLoad = useCallback((map) => {
@@ -196,10 +188,11 @@ export default function HeatmapVisualization() {
               {vehicleClasses.map(vehicleClass => (
                 <label key={vehicleClass} className={styles.filterLabel}>
                   <input
-                    type="checkbox"
-                    checked={selectedClasses.includes(vehicleClass)}
-                    onChange={() => toggleClass(vehicleClass)}
-                    className={styles.checkbox}
+                    type="radio"
+                    name="vehicleClass"
+                    checked={selectedClass === vehicleClass}
+                    onChange={() => selectClass(vehicleClass)}
+                    className={styles.radio}
                   />
                   <span className={styles.colorDot} style={{ backgroundColor: getClassColor(vehicleClass) }}></span>
                   <span className={styles.labelText}>
@@ -217,8 +210,8 @@ export default function HeatmapVisualization() {
               <span className={styles.statValue}>{locations.length}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>Active Classes:</span>
-              <span className={styles.statValue}>{selectedClasses.length}</span>
+              <span className={styles.statLabel}>Selected Class:</span>
+              <span className={styles.statValue}>{selectedClass || 'None'}</span>
             </div>
             <div className={styles.statItem}>
               <span className={styles.statLabel}>Heatmap Points:</span>

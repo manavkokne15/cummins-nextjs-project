@@ -94,6 +94,14 @@
   flex-shrink: 0;
 }
 
+.radio {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #3b82f6;
+  flex-shrink: 0;
+}
+
 .colorDot {
   display: inline-block;
   width: 12px;
