@@ -194,32 +194,32 @@ export default function HeatmapVisualization() {
       });
       heatmapLayersRef.current['background'] = backgroundLayer;
 
-      // Create specific concentration layers
+      // Create specific concentration layers with simple intensity gradient
       const concentrationConfigs = {
-        0: { // Highly Concentrated - Red
+        0: { // Highly Concentrated - Red (High intensity)
           gradient: [
-            'rgba(220, 38, 38, 0)',
-            'rgba(220, 38, 38, 0.6)',
-            'rgba(220, 38, 38, 0.9)',
-            'rgba(185, 28, 28, 1)'
+            'rgba(255, 0, 0, 0)',     // Transparent red
+            'rgba(255, 0, 0, 0.6)',   // Semi-transparent red
+            'rgba(255, 0, 0, 0.9)',   // Strong red
+            'rgba(255, 0, 0, 1)'      // Full red
           ],
           radius: 35
         },
-        1: { // Substantially Concentrated - Green
+        1: { // Substantially Concentrated - Orange (Medium intensity)
           gradient: [
-            'rgba(5, 150, 105, 0)',
-            'rgba(5, 150, 105, 0.6)',
-            'rgba(5, 150, 105, 0.9)', 
-            'rgba(4, 120, 87, 1)'
+            'rgba(255, 165, 0, 0)',   // Transparent orange
+            'rgba(255, 165, 0, 0.6)', // Semi-transparent orange
+            'rgba(255, 165, 0, 0.9)', // Strong orange
+            'rgba(255, 165, 0, 1)'    // Full orange
           ],
           radius: 30
         },
-        2: { // National - Orange
+        2: { // National - Yellow-Green (Lower intensity)
           gradient: [
-            'rgba(217, 119, 6, 0)',
-            'rgba(217, 119, 6, 0.6)',
-            'rgba(217, 119, 6, 0.9)',
-            'rgba(180, 83, 9, 1)'
+            'rgba(154, 205, 50, 0)',  // Transparent yellow-green
+            'rgba(154, 205, 50, 0.6)',// Semi-transparent yellow-green
+            'rgba(154, 205, 50, 0.9)',// Strong yellow-green
+            'rgba(154, 205, 50, 1)'   // Full yellow-green
           ],
           radius: 25
         }
