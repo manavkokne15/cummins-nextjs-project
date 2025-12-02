@@ -1,0 +1,42 @@
+{
+  "new york, new york": {
+    "lat": 40.7127281,
+    "lon": -74.0060152
+  },
+  "los angeles, california": {
+    "lat": 34.0536909,
+    "lon": -118.242766
+  },
+  "chicago, illinois": {
+    "lat": 41.8755616,
+    "lon": -87.6244212
+  },
+  "houston, texas": {
+    "lat": 29.7589382,
+    "lon": -95.3676974
+  },
+  "phoenix, arizona": {
+    "lat": 33.4485866,
+    "lon": -112.0773456
+  },
+  "philadelphia, pennsylvania": {
+    "lat": 39.9527237,
+    "lon": -75.1635262
+  },
+  "san antonio, texas": {
+    "lat": 29.4246002,
+    "lon": -98.4951405
+  },
+  "san diego, california": {
+    "lat": 32.7174202,
+    "lon": -117.1627714
+  },
+  "dallas, texas": {
+    "lat": 32.7762719,
+    "lon": -96.7968559
+  },
+  "san jose, california": {
+    "lat": 37.3361663,
+    "lon": -121.890591
+  }
+}
