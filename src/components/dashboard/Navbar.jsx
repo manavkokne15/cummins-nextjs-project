@@ -58,7 +58,7 @@ export default function Navbar() {
       {/* Center Section - Navigation Links */}
       <div className={`${styles.navCenter} ${isMenuOpen ? styles.active : ""}`}>
         <Link
-          href="/dashboard/heatmap"
+          href="/dashboard/heatmap3"
           className={styles.navLink}
           onClick={() => setIsMenuOpen(false)}
         >
