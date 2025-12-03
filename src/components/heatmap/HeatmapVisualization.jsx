@@ -6,7 +6,10 @@ import {
   parseVehicleCSV,
   aggregateByLocation,
   getUniqueVehicleClasses,
+  getUniqueRegions,
   getClassColor,
+  getConcentrationColor,
+  getConcentrationDescription,
   getVehicleTypeDescription,
   getHeatmapIntensity,
 } from '@/utils/csvParser';
@@ -28,11 +31,17 @@ const libraries = ['places', 'visualization'];
 export default function HeatmapVisualization() {
   const [vehicles, setVehicles] = useState([]);
   const [vehicleClasses, setVehicleClasses] = useState([]);
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
   const [selectedClass, setSelectedClass] = useState(null);
   const [regionFilter, setRegionFilter] = useState('all');
+=======
+  const [regions, setRegions] = useState([]);
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedRegion, setSelectedRegion] = useState('All Regions');
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
   const [loading, setLoading] = useState(true);
   const [mapInstance, setMapInstance] = useState(null);
-  const heatmapLayerRef = useRef(null);
+  const heatmapLayersRef = useRef({});
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -43,15 +52,23 @@ export default function HeatmapVisualization() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        console.log('Starting to load vehicle data...');
+        console.log('Starting to load enhanced vehicle data...');
         const parsedVehicles = await parseVehicleCSV();
         console.log('Vehicles loaded:', parsedVehicles.length);
         setVehicles(parsedVehicles);
         
         const classes = getUniqueVehicleClasses(parsedVehicles);
+        const regionList = getUniqueRegions(parsedVehicles);
         console.log('Vehicle classes found:', classes);
+        console.log('Regions found:', regionList);
+        
         setVehicleClasses(classes);
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
         setSelectedClass(classes[0] || null);
+=======
+        setRegions(regionList);
+        setSelectedClass(classes[0] || null); // Select first class by default
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
       } catch (error) {
         console.error('Error loading vehicle data:', error);
       } finally {
@@ -62,6 +79,7 @@ export default function HeatmapVisualization() {
     loadData();
   }, []);
 
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
   // Region mapping for US states
   const getRegionMatch = useCallback((state, selectedRegion) => {
     if (!selectedRegion || selectedRegion === 'all' || !state) return true;
@@ -113,10 +131,22 @@ export default function HeatmapVisualization() {
     
     const aggregated = aggregateByLocation(filteredVehicles);
     console.log('Aggregated locations:', aggregated.length, aggregated.slice(0, 3));
+=======
+  // Compute aggregated locations and heatmap data grouped by concentration type
+  const { locations, maxVehicleCount, heatmapDataByConcentration } = useMemo(() => {
+    if (vehicles.length === 0 || !isLoaded || !window.google || !selectedClass) {
+      return { locations: [], maxVehicleCount: 1, heatmapDataByConcentration: {} };
+    }
+
+    const regionFilter = selectedRegion === 'All Regions' ? null : selectedRegion;
+    const aggregated = aggregateByLocation(vehicles, selectedClass, regionFilter);
+    console.log('Aggregated locations for class', selectedClass, ':', aggregated.length);
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
     
     const max = Math.max(...aggregated.map(loc => loc.totalVehicles), 1);
     console.log('Max vehicle count:', max);
 
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
     const data = selectedClass ? aggregated
       .filter(location => {
         return location.byClass[selectedClass] && location.byClass[selectedClass] > 0;
@@ -142,42 +172,189 @@ export default function HeatmapVisualization() {
   // Handle class selection (single class only)
   const selectClass = useCallback((vehicleClass) => {
     setSelectedClass(vehicleClass);
+=======
+    // Group data by concentration type for separate layers
+    const dataByConcentration = {
+      0: [], // Highly Concentrated - Red
+      1: [], // Substantially Concentrated - Green  
+      2: []  // National - Orange
+    };
+
+    aggregated
+      .filter(location => {
+        return location.byClass[selectedClass] && location.byClass[selectedClass] > 0;
+      })
+      .forEach(location => {
+        const count = location.byClass[selectedClass];
+        const concentrationType = location.concentrationByClass[selectedClass];
+        
+        let baseWeight = getHeatmapIntensity(count, max);
+        
+        // Ensure minimum visibility for each concentration type
+        switch(concentrationType) {
+          case 0: // Highly Concentrated
+            baseWeight = Math.max(baseWeight, 0.9);
+            break;
+          case 1: // Substantially Concentrated
+            baseWeight = Math.max(baseWeight, 0.7);
+            break;
+          case 2: // National
+            baseWeight = Math.max(baseWeight, 0.5);
+            break;
+        }
+        
+        const pointCount = Math.max(3, Math.round(baseWeight * 10));
+        
+        const points = Array(pointCount).fill(0).map(() => ({
+          location: new window.google.maps.LatLng(
+            location.lat + (Math.random() - 0.5) * 0.04,
+            location.lng + (Math.random() - 0.5) * 0.04
+          ),
+          weight: baseWeight * 100,
+        }));
+        
+        if (dataByConcentration[concentrationType]) {
+          dataByConcentration[concentrationType].push(...points);
+        }
+      });
+
+    console.log('Heatmap data by concentration:', {
+      'Highly Concentrated': dataByConcentration[0].length,
+      'Substantially Concentrated': dataByConcentration[1].length,
+      'National': dataByConcentration[2].length
+    });
+    
+    return { locations: aggregated, maxVehicleCount: max, heatmapDataByConcentration: dataByConcentration };
+  }, [vehicles, selectedClass, selectedRegion, isLoaded]);
+
+  // Handle class selection (single selection)
+  const handleClassChange = useCallback((vehicleClass) => {
+    setSelectedClass(vehicleClass);
+  }, []);
+  
+  // Handle region selection
+  const handleRegionChange = useCallback((region) => {
+    setSelectedRegion(region);
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
   }, []);
 
-  // Update heatmap layer
+  // Update heatmap layers with blue background and concentration overlays
   useEffect(() => {
     if (!mapInstance || !isLoaded) {
       return;
     }
 
-    // Remove old heatmap layer
-    if (heatmapLayerRef.current) {
-      heatmapLayerRef.current.setMap(null);
-      heatmapLayerRef.current = null;
-    }
+    // Remove all old heatmap layers
+    Object.values(heatmapLayersRef.current).forEach(layer => {
+      if (layer) layer.setMap(null);
+    });
+    heatmapLayersRef.current = {};
 
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
     // If no data or no selected class, just remove the layer and return
     if (heatmapData.length === 0 || !selectedClass) {
       console.log('No heatmap data or no selected class, layer removed');
+=======
+    if (!selectedClass) {
+      console.log('No selected class, layers removed');
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
       return;
     }
 
     try {
-      // Create new heatmap layer with proper format
-      const heatmapLayer = new window.google.maps.visualization.HeatmapLayer({
-        data: heatmapData,
+      // Create blue background layer for areas with no vehicles
+      const blueGradient = [
+        'rgba(37, 99, 235, 0)',     // Transparent
+        'rgba(37, 99, 235, 0.15)',  // Very light blue
+        'rgba(59, 130, 246, 0.25)', // Light blue background
+      ];
+
+      // Create background coverage points across US
+      const backgroundPoints = [];
+      for (let lat = 25; lat <= 49; lat += 1) {
+        for (let lng = -125; lng <= -66; lng += 1) {
+          backgroundPoints.push({
+            location: new window.google.maps.LatLng(lat, lng),
+            weight: 1
+          });
+        }
+      }
+
+      const backgroundLayer = new window.google.maps.visualization.HeatmapLayer({
+        data: backgroundPoints,
         map: mapInstance,
         radius: 100,
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
         maxIntensity: 100,
         dissipating: true ,
+=======
+        maxIntensity: 1,
+        dissipating: true,
+        gradient: blueGradient,
+        opacity: 0.3,
+      });
+      heatmapLayersRef.current['background'] = backgroundLayer;
+
+      // Create specific concentration layers with simple intensity gradient
+      const concentrationConfigs = {
+        0: { // Highly Concentrated - Red (High intensity)
+          gradient: [
+            'rgba(255, 0, 0, 0)',     // Transparent red
+            'rgba(255, 0, 0, 0.6)',   // Semi-transparent red
+            'rgba(255, 0, 0, 0.9)',   // Strong red
+            'rgba(255, 0, 0, 1)'      // Full red
+          ],
+          radius: 35
+        },
+        1: { // Substantially Concentrated - Orange (Medium intensity)
+          gradient: [
+            'rgba(255, 165, 0, 0)',   // Transparent orange
+            'rgba(255, 165, 0, 0.6)', // Semi-transparent orange
+            'rgba(255, 165, 0, 0.9)', // Strong orange
+            'rgba(255, 165, 0, 1)'    // Full orange
+          ],
+          radius: 30
+        },
+        2: { // National - Yellow-Green (Lower intensity)
+          gradient: [
+            'rgba(154, 205, 50, 0)',  // Transparent yellow-green
+            'rgba(154, 205, 50, 0.6)',// Semi-transparent yellow-green
+            'rgba(154, 205, 50, 0.9)',// Strong yellow-green
+            'rgba(154, 205, 50, 1)'   // Full yellow-green
+          ],
+          radius: 25
+        }
+      };
+
+      // Create layers for each concentration type
+      Object.entries(heatmapDataByConcentration).forEach(([concentrationType, data]) => {
+        if (data.length > 0) {
+          const config = concentrationConfigs[concentrationType];
+          
+          const layer = new window.google.maps.visualization.HeatmapLayer({
+            data: data,
+            map: mapInstance,
+            radius: config.radius,
+            maxIntensity: 100,
+            dissipating: true,
+            gradient: config.gradient,
+            opacity: 0.8,
+          });
+          
+          heatmapLayersRef.current[`concentration_${concentrationType}`] = layer;
+        }
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
       });
 
-      heatmapLayerRef.current = heatmapLayer;
-      console.log('Heatmap layer created successfully');
+      console.log('Multi-layer heatmap created with blue background and concentration overlays');
     } catch (error) {
-      console.error('Error creating heatmap layer:', error);
+      console.error('Error creating heatmap layers:', error);
     }
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
   }, [mapInstance, isLoaded, heatmapData, selectedClass]);
+=======
+  }, [mapInstance, isLoaded, heatmapDataByConcentration, selectedClass]);
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
 
   // Fit map to bounds on initial load only
   const onMapLoad = useCallback((map) => {
@@ -204,9 +381,9 @@ export default function HeatmapVisualization() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Vehicle Distribution Heatmap</h1>
+        <h1 className={styles.title}>Vehicle Concentration Heatmap</h1>
         <p className={styles.description}>
-          Geographic distribution of vehicles by class type across the United States
+          Regional concentration analysis of vehicle classes with intensity-based visualization
         </p>
       </div>
 
@@ -228,6 +405,7 @@ export default function HeatmapVisualization() {
 
         <div className={styles.sidebar}>
           <div className={styles.filterSection}>
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
             <h3 className={styles.filterTitle}>Vehicle Class Filters</h3>
             <div className={styles.filterOptions}>
               {vehicleClasses.map(vehicleClass => (
@@ -245,6 +423,68 @@ export default function HeatmapVisualization() {
                   </span>
                 </label>
               ))}
+=======
+            <h3 className={styles.filterTitle}>Vehicle Class Selection</h3>
+            <div className={styles.dropdown}>
+              <select 
+                value={selectedClass || ''} 
+                onChange={(e) => handleClassChange(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">Select Vehicle Class</option>
+                {vehicleClasses.map(vehicleClass => (
+                  <option key={vehicleClass} value={vehicleClass}>
+                    Class {vehicleClass} - {getVehicleTypeDescription(vehicleClass)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className={styles.filterSection}>
+            <h3 className={styles.filterTitle}>Region Filter</h3>
+            <div className={styles.dropdown}>
+              <select 
+                value={selectedRegion} 
+                onChange={(e) => handleRegionChange(e.target.value)}
+                className={styles.select}
+              >
+                <option value="All Regions">All Regions</option>
+                {regions.map(region => (
+                  <option key={region} value={region}>
+                    {region}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className={styles.legendSection}>
+            <h3 className={styles.filterTitle}>Concentration Legend</h3>
+            <div className={styles.concentrationLegend}>
+              <div className={styles.legendItem}>
+                <span className={styles.colorDot} style={{ backgroundColor: '#2563eb' }}></span>
+                <span>Not Present</span>
+              </div>
+              <div className={styles.legendItem}>
+                <span className={styles.colorDot} style={{ backgroundColor: '#d97706' }}></span>
+                <span>National Distribution</span>
+              </div>
+              <div className={styles.legendItem}>
+                <span className={styles.colorDot} style={{ backgroundColor: '#059669' }}></span>
+                <span>Substantially Concentrated</span>
+              </div>
+              <div className={styles.legendItem}>
+                <span className={styles.colorDot} style={{ backgroundColor: '#dc2626' }}></span>
+                <span>Highly Concentrated</span>
+              </div>
+            </div>
+            <div className={styles.gradientBar}></div>
+            <div className={styles.gradientLabels}>
+              <span>Low</span>
+              <span>Medium</span>
+              <span>High</span>
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
             </div>
           </div>
 
@@ -269,24 +509,31 @@ export default function HeatmapVisualization() {
           <div className={styles.statsSection}>
             <h3 className={styles.statsTitle}>Statistics</h3>
             <div className={styles.statItem}>
+              <span className={styles.statLabel}>Selected Class:</span>
+              <span className={styles.statValue}>
+                {selectedClass ? `Class ${selectedClass}` : 'None'}
+              </span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statLabel}>Region:</span>
+              <span className={styles.statValue}>{selectedRegion}</span>
+            </div>
+            <div className={styles.statItem}>
               <span className={styles.statLabel}>Locations:</span>
               <span className={styles.statValue}>{locations.length}</span>
             </div>
             <div className={styles.statItem}>
+<<<<<<< HEAD:src/components/heatmap/HeatmapVisualization.jsx
               <span className={styles.statLabel}>Selected Class:</span>
               <span className={styles.statValue}>{selectedClass || 'None'}</span>
             </div>
             <div className={styles.statItem}>
+=======
+>>>>>>> 6f268f167093389e76d25e6d6500ff57abbc712a:src/components/dashboard/heatmap/HeatmapVisualization.jsx
               <span className={styles.statLabel}>Heatmap Points:</span>
-              <span className={styles.statValue}>{heatmapData.length}</span>
-            </div>
-            <div className={styles.legend}>
-              <p className={styles.legendTitle}>Intensity Legend:</p>
-              <div className={styles.legendBar}></div>
-              <div className={styles.legendLabels}>
-                <span>Low</span>
-                <span>High</span>
-              </div>
+              <span className={styles.statValue}>
+                {Object.values(heatmapDataByConcentration).reduce((sum, data) => sum + data.length, 0)}
+              </span>
             </div>
           </div>
         </div>

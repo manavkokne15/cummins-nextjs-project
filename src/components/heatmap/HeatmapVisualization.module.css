@@ -64,34 +64,78 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
-.filterOptions {
+.dropdown {
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #334155;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.select:hover {
+  border-color: #cbd5e1;
+}
+
+.legendSection {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.concentrationLegend {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 16px;
 }
 
-.filterLabel {
+.legendItem {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
+  gap: 10px;
   font-size: 0.875rem;
   color: #334155;
-  padding: 8px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
 }
 
-.filterLabel:hover {
-  background-color: #f1f5f9;
+.gradientBar {
+  width: 100%;
+  height: 24px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, 
+    #0080ff 0%,     /* Blue - Low intensity */
+    #00ff80 25%,    /* Green - Low-medium intensity */
+    #80ff00 50%,    /* Yellow-green - Medium intensity */
+    #ffff00 60%,    /* Yellow - Medium intensity */
+    #ffa500 80%,    /* Orange - Medium-high intensity */
+    #ff0000 100%    /* Red - High intensity */
+  );
+  margin-top: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.checkbox {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: #3b82f6;
-  flex-shrink: 0;
+.gradientLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
 }
 
 .radio {
@@ -180,7 +224,7 @@
   width: 100%;
   height: 20px;
   border-radius: 4px;
-  background: linear-gradient(90deg, #0369a1, #06b6d4, #10b981, #84cc16, #eab308, #f59e0b, #ef4444);
+  background: linear-gradient(90deg, #0080ff, #00ff80, #80ff00, #ffff00, #ffa500, #ff0000);
   margin-bottom: 6px;
 }
 
