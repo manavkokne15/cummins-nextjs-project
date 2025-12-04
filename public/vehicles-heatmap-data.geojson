@@ -1,0 +1,714 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-74.006, 40.7128]
+      },
+      "properties": {
+        "city": "New York",
+        "state": "NY",
+        "vehicle_count": 15,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.2437, 34.0522]
+      },
+      "properties": {
+        "city": "Los Angeles",
+        "state": "CA",
+        "vehicle_count": 25,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-87.6298, 41.8781]
+      },
+      "properties": {
+        "city": "Chicago",
+        "state": "IL",
+        "vehicle_count": 18,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-95.3698, 29.7604]
+      },
+      "properties": {
+        "city": "Houston",
+        "state": "TX",
+        "vehicle_count": 22,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.074, 33.4484]
+      },
+      "properties": {
+        "city": "Phoenix",
+        "state": "AZ",
+        "vehicle_count": 12,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.1652, 39.9526]
+      },
+      "properties": {
+        "city": "Philadelphia",
+        "state": "PA",
+        "vehicle_count": 16,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-98.4936, 29.4241]
+      },
+      "properties": {
+        "city": "San Antonio",
+        "state": "TX",
+        "vehicle_count": 20,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.1611, 32.7157]
+      },
+      "properties": {
+        "city": "San Diego",
+        "state": "CA",
+        "vehicle_count": 14,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-96.8005, 32.7767]
+      },
+      "properties": {
+        "city": "Dallas",
+        "state": "TX",
+        "vehicle_count": 24,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-121.4944, 38.5816]
+      },
+      "properties": {
+        "city": "Sacramento",
+        "state": "CA",
+        "vehicle_count": 11,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.4194, 37.7749]
+      },
+      "properties": {
+        "city": "San Francisco",
+        "state": "CA",
+        "vehicle_count": 19,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.1918, 25.7617]
+      },
+      "properties": {
+        "city": "Miami",
+        "state": "FL",
+        "vehicle_count": 17,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.3880, 33.7490]
+      },
+      "properties": {
+        "city": "Atlanta",
+        "state": "GA",
+        "vehicle_count": 21,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-71.0589, 42.3601]
+      },
+      "properties": {
+        "city": "Boston",
+        "state": "MA",
+        "vehicle_count": 13,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.3321, 47.6062]
+      },
+      "properties": {
+        "city": "Seattle",
+        "state": "WA",
+        "vehicle_count": 16,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.9903, 39.7392]
+      },
+      "properties": {
+        "city": "Denver",
+        "state": "CO",
+        "vehicle_count": 18,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.1581, 39.7684]
+      },
+      "properties": {
+        "city": "Indianapolis",
+        "state": "IN",
+        "vehicle_count": 12,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-90.1994, 38.6270]
+      },
+      "properties": {
+        "city": "St. Louis",
+        "state": "MO",
+        "vehicle_count": 14,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.6944, 41.4993]
+      },
+      "properties": {
+        "city": "Cleveland",
+        "state": "OH",
+        "vehicle_count": 20,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-83.0458, 42.3314]
+      },
+      "properties": {
+        "city": "Detroit",
+        "state": "MI",
+        "vehicle_count": 23,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.2650, 44.9778]
+      },
+      "properties": {
+        "city": "Minneapolis",
+        "state": "MN",
+        "vehicle_count": 15,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-82.4584, 27.9506]
+      },
+      "properties": {
+        "city": "Tampa",
+        "state": "FL",
+        "vehicle_count": 17,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.0369, 38.9072]
+      },
+      "properties": {
+        "city": "Washington",
+        "state": "DC",
+        "vehicle_count": 19,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.6122, 39.2904]
+      },
+      "properties": {
+        "city": "Baltimore",
+        "state": "MD",
+        "vehicle_count": 16,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-115.1398, 36.1699]
+      },
+      "properties": {
+        "city": "Las Vegas",
+        "state": "NV",
+        "vehicle_count": 14,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.0351, 44.9429]
+      },
+      "properties": {
+        "city": "Portland",
+        "state": "OR",
+        "vehicle_count": 18,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-94.5786, 39.0997]
+      },
+      "properties": {
+        "city": "Kansas City",
+        "state": "MO",
+        "vehicle_count": 21,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-85.7585, 38.2027]
+      },
+      "properties": {
+        "city": "Louisville",
+        "state": "KY",
+        "vehicle_count": 13,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.7816, 36.1627]
+      },
+      "properties": {
+        "city": "Nashville",
+        "state": "TN",
+        "vehicle_count": 19,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-90.0715, 35.1495]
+      },
+      "properties": {
+        "city": "Memphis",
+        "state": "TN",
+        "vehicle_count": 22,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.3792, 28.5383]
+      },
+      "properties": {
+        "city": "Orlando",
+        "state": "FL",
+        "vehicle_count": 15,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.7431, 30.2672]
+      },
+      "properties": {
+        "city": "Austin",
+        "state": "TX",
+        "vehicle_count": 17,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-106.6504, 35.0844]
+      },
+      "properties": {
+        "city": "Santa Fe",
+        "state": "NM",
+        "vehicle_count": 11,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-111.8910, 40.7608]
+      },
+      "properties": {
+        "city": "Salt Lake City",
+        "state": "UT",
+        "vehicle_count": 16,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-149.9003, 61.2181]
+      },
+      "properties": {
+        "city": "Anchorage",
+        "state": "AK",
+        "vehicle_count": 8,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-157.8583, 21.3099]
+      },
+      "properties": {
+        "city": "Honolulu",
+        "state": "HI",
+        "vehicle_count": 9,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-72.5301, 44.2601]
+      },
+      "properties": {
+        "city": "Montpelier",
+        "state": "VT",
+        "vehicle_count": 7,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-68.7712, 44.3106]
+      },
+      "properties": {
+        "city": "Bangor",
+        "state": "ME",
+        "vehicle_count": 10,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-71.4128, 41.8240]
+      },
+      "properties": {
+        "city": "Providence",
+        "state": "RI",
+        "vehicle_count": 12,
+        "vehicle_class": 2,
+        "vehicle_type": "Light-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 1,
+        "concentration_description": "Substantially concentrated"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-72.6851, 41.7658]
+      },
+      "properties": {
+        "city": "Hartford",
+        "state": "CT",
+        "vehicle_count": 14,
+        "vehicle_class": 4,
+        "vehicle_type": "Heavy-duty truck",
+        "fuel_type": "Diesel",
+        "concentration_type": 2,
+        "concentration_description": "National"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.5277, 39.1612]
+      },
+      "properties": {
+        "city": "Dover",
+        "state": "DE",
+        "vehicle_count": 11,
+        "vehicle_class": 3,
+        "vehicle_type": "Medium-duty truck",
+        "fuel_type": "Gasoline",
+        "concentration_type": 0,
+        "concentration_description": "Highly concentrated"
+      }
+    }
+  ],
+  "metadata": {
+    "total_records": 40,
+    "processed": 40,
+    "failed": 0,
+    "concentration_distribution": {
+      "Highly Concentrated (0)": 13,
+      "Substantially Concentrated (1)": 13,
+      "National (2)": 14
+    },
+    "generated_at": "2025-12-04T00:00:00.000Z",
+    "note": "Pre-generated static GeoJSON for instant loading"
+  }
+}

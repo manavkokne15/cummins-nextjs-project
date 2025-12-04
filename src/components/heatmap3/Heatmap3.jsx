@@ -66,8 +66,8 @@ export default function Heatmap3() {
           }
         }
 
-        // Fetch vehicle data
-        const response = await fetch('/api/vehicles-geojson3');
+        // Fetch vehicle data from fast static API (INSTANT LOAD!)
+        const response = await fetch('/api/vehicles-geojson-fast');
         if (!response.ok) {
           if (response.status === 503) {
             console.warn('Geocoding service temporarily unavailable - using cached data only');

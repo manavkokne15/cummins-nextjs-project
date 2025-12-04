@@ -188,7 +188,10 @@
     "lat": 36.1156306,
     "lon": -97.0585717
   },
-  "wildwood, missouri": null,
+  "wildwood, missouri": {
+    "lat": 38.5806948,
+    "lon": -90.6314374
+  },
   "westbrook, maine": null,
   "yerington, nevada": null,
   "fargo, north dakota": {
@@ -208,7 +211,10 @@
   "keene, new hampshire": null,
   "pasadena, texas": null,
   "palmer, alaska": null,
-  "new rochelle, new york": null,
+  "new rochelle, new york": {
+    "lat": 40.9115386,
+    "lon": -73.7826363
+  },
   "st. joseph, missouri": {
     "lat": 39.7686055,
     "lon": -94.8466322
@@ -248,9 +254,18 @@
   },
   "bentonville, arkansas": null,
   "southfield, michigan": null,
-  "dillingham, alaska": null,
-  "gabbs, nevada": null,
-  "fontana, california": null,
+  "dillingham, alaska": {
+    "lat": 59.0398598,
+    "lon": -158.4604177
+  },
+  "gabbs, nevada": {
+    "lat": 38.8613923,
+    "lon": -117.930861
+  },
+  "fontana, california": {
+    "lat": 34.1105273,
+    "lon": -117.4935015
+  },
   "barrow, alaska": {
     "lat": 64.22956327404222,
     "lon": -153.64752800530331
@@ -268,7 +283,10 @@
   "springfield, oregon": null,
   "portsmouth, new hampshire": null,
   "dickson, tennessee": null,
-  "hot springs, south dakota": null,
+  "hot springs, south dakota": {
+    "lat": 43.4204417,
+    "lon": -103.4796188
+  },
   "hartford, connecticut": {
     "lat": 41.764582,
     "lon": -72.6908547
@@ -1376,5 +1394,493 @@
   "middletown, delaware": {
     "lat": 39.4497639,
     "lon": -75.7166345
+  },
+  "bethel, alaska": {
+    "lat": 60.7922222,
+    "lon": -161.755833
+  },
+  "casa grande, arizona": {
+    "lat": 32.8791299,
+    "lon": -111.7280455
+  },
+  "grand rapids, michigan": {
+    "lat": 42.9632425,
+    "lon": -85.6678639
+  },
+  "ely, nevada": {
+    "lat": 39.2480588,
+    "lon": -114.891718
+  },
+  "vineland, new jersey": {
+    "lat": 39.4862777,
+    "lon": -75.0254256
+  },
+  "berlin, maryland": {
+    "lat": 38.324505,
+    "lon": -75.2188589
+  },
+  "ankeny, iowa": {
+    "lat": 41.7320796,
+    "lon": -93.605092
+  },
+  "joliet, illinois": {
+    "lat": 41.5480491,
+    "lon": -88.2014944
+  },
+  "coral springs, florida": {
+    "lat": 26.2850139,
+    "lon": -80.2204347
+  },
+  "albany, georgia": {
+    "lat": 31.6229997,
+    "lon": -84.214663
+  },
+  "portland, oregon": {
+    "lat": 45.5261935,
+    "lon": -122.5903323
+  },
+  "trenton, new jersey": {
+    "lat": 40.2045745,
+    "lon": -74.7445142
+  },
+  "madison, indiana": {
+    "lat": 38.7823968,
+    "lon": -85.3787871
+  },
+  "searcy, arkansas": {
+    "lat": 35.2497012,
+    "lon": -91.6877586
+  },
+  "west fargo, north dakota": {
+    "lat": 46.8758289,
+    "lon": -96.9281287
+  },
+  "edison, new jersey": {
+    "lat": 40.518157,
+    "lon": -74.4113926
+  },
+  "st. george, utah": {
+    "lat": 37.104153,
+    "lon": -113.584131
+  },
+  "farmington, new mexico": {
+    "lat": 36.7291152,
+    "lon": -108.205445
+  },
+  "university city, missouri": {
+    "lat": 38.6569083,
+    "lon": -90.3103443
+  },
+  "salisbury, north carolina": {
+    "lat": 35.6511679,
+    "lon": -80.4624889
+  },
+  "jeffersontown, kentucky": {
+    "lat": 38.1887202,
+    "lon": -85.5646742
+  },
+  "moscow, idaho": {
+    "lat": 46.7323875,
+    "lon": -117.000165
+  },
+  "lebanon, pennsylvania": {
+    "lat": 40.375713,
+    "lon": -76.4626118
+  },
+  "hinesville, georgia": {
+    "lat": 31.8477347,
+    "lon": -81.5960705
+  },
+  "kailua-kona, hawaii": {
+    "lat": 21.952906907938097,
+    "lon": -156.56101610442144
+  },
+  "bangor, maine": {
+    "lat": 44.8016255,
+    "lon": -68.7713289
+  },
+  "kenai, alaska": {
+    "lat": 60.555773,
+    "lon": -151.2486211
+  },
+  "mesquite, nevada": {
+    "lat": 36.8035642,
+    "lon": -114.067141
+  },
+  "florence, south carolina": {
+    "lat": 34.1681581,
+    "lon": -79.7619031
+  },
+  "tamarac, florida": {
+    "lat": 26.2128609,
+    "lon": -80.2497707
+  },
+  "stamford, connecticut": {
+    "lat": 41.0534302,
+    "lon": -73.5387341
+  },
+  "johnson city, tennessee": {
+    "lat": 36.3093305,
+    "lon": -82.4065073
+  },
+  "silver city, new mexico": {
+    "lat": 32.7711825,
+    "lon": -108.2764164
+  },
+  "yankton, south dakota": {
+    "lat": 42.8712938,
+    "lon": -97.3967011
+  },
+  "woodbridge, new jersey": {
+    "lat": 40.55418,
+    "lon": -74.2860008
+  },
+  "williston, north dakota": {
+    "lat": 48.1465457,
+    "lon": -103.621814
+  },
+  "el paso, texas": {
+    "lat": 31.756851,
+    "lon": -106.2725697
+  },
+  "swanton, vermont": {
+    "lat": 44.9181593,
+    "lon": -73.1242364
+  },
+  "wasilla, alaska": {
+    "lat": 61.5840663,
+    "lon": -149.4276914
+  },
+  "elkton, maryland": {
+    "lat": 39.6065073,
+    "lon": -75.8330934
+  },
+  "fallon, nevada": {
+    "lat": 39.4745166,
+    "lon": -118.777895
+  },
+  "hutchinson, kansas": {
+    "lat": 38.0708519,
+    "lon": -97.8943142
+  },
+  "st. charles, missouri": {
+    "lat": 38.8018778,
+    "lon": -90.7194125
+  },
+  "hayden, idaho": {
+    "lat": 47.7590638,
+    "lon": -116.7866807
+  },
+  "nashville, tennessee": {
+    "lat": 36.0625047,
+    "lon": -86.6297104
+  },
+  "miles city, montana": {
+    "lat": 46.4070219,
+    "lon": -105.847843
+  },
+  "shreveport, louisiana": {
+    "lat": 32.4487726,
+    "lon": -93.8671173
+  },
+  "cheyenne, wyoming": {
+    "lat": 41.139981,
+    "lon": -104.820246
+  },
+  "lakeland, florida": {
+    "lat": 28.1072799,
+    "lon": -81.9087812
+  },
+  "beatrice, nebraska": {
+    "lat": 40.266429,
+    "lon": -96.747369
+  },
+  "lead, south dakota": {
+    "lat": 44.352207,
+    "lon": -103.765198
+  },
+  "dover, new hampshire": {
+    "lat": 43.1981117,
+    "lon": -70.8739761
+  },
+  "rochester, new york": {
+    "lat": 43.1566,
+    "lon": -77.6088
+  },
+  "watford city, north dakota": {
+    "lat": 47.802241,
+    "lon": -103.283247
+  },
+  "lawrence, massachusetts": {
+    "lat": 42.7070354,
+    "lon": -71.1631137
+  },
+  "kent, washington": {
+    "lat": 47.4391107,
+    "lon": -122.2201323
+  },
+  "meridian, mississippi": {
+    "lat": 32.3643098,
+    "lon": -88.703656
+  },
+  "lakeville, minnesota": {
+    "lat": 44.650051,
+    "lon": -93.2432791
+  },
+  "fort myers, florida": {
+    "lat": 26.6119575,
+    "lon": -81.8148959
+  },
+  "norwalk, connecticut": {
+    "lat": 41.1324782,
+    "lon": -73.4235797
+  },
+  "edmond, oklahoma": {
+    "lat": 35.6647934,
+    "lon": -97.5136226
+  },
+  "milford, delaware": {
+    "lat": 38.9130453,
+    "lon": -75.4278733
+  },
+  "aiken, south carolina": {
+    "lat": 33.5030679,
+    "lon": -81.9587281
+  },
+  "somerville, massachusetts": {
+    "lat": 42.3959334,
+    "lon": -71.1228363
+  },
+  "richmond, kentucky": {
+    "lat": 37.7478572,
+    "lon": -84.2946539
+  },
+  "unalaska, alaska": {
+    "lat": 53.8735828,
+    "lon": -166.5328654
+  },
+  "hoboken, new jersey": {
+    "lat": 40.7433066,
+    "lon": -74.0323752
+  },
+  "middletown, connecticut": {
+    "lat": 41.5623178,
+    "lon": -72.6509061
+  },
+  "phenix city, alabama": {
+    "lat": 32.392961,
+    "lon": -85.0484363
+  },
+  "hampton, new hampshire": {
+    "lat": 42.9417199,
+    "lon": -70.8378746
+  },
+  "mooresville, north carolina": {
+    "lat": 35.5906528,
+    "lon": -80.858036
+  },
+  "gresham, oregon": {
+    "lat": 45.4978623,
+    "lon": -122.4329883
+  },
+  "covington, kentucky": {
+    "lat": 39.0831712,
+    "lon": -84.5107548
+  },
+  "leawood, kansas": {
+    "lat": 38.966673,
+    "lon": -94.6169012
+  },
+  "staunton, virginia": {
+    "lat": 38.1443774,
+    "lon": -79.0704901
+  },
+  "riverton, utah": {
+    "lat": 40.5215427,
+    "lon": -111.9009933
+  },
+  "davenport, iowa": {
+    "lat": 41.5653998,
+    "lon": -90.5666082
+  },
+  "wahpeton, north dakota": {
+    "lat": 46.2636526,
+    "lon": -96.615296
+  },
+  "dothan, alabama": {
+    "lat": 31.1777027,
+    "lon": -85.40273
+  },
+  "kirkland, washington": {
+    "lat": 47.7111704,
+    "lon": -122.1821266
+  },
+  "brighton, colorado": {
+    "lat": 39.8565155,
+    "lon": -104.9120418
+  },
+  "brookfield, wisconsin": {
+    "lat": 43.0777609,
+    "lon": -88.1834303
+  },
+  "oak creek, wisconsin": {
+    "lat": 42.898729,
+    "lon": -87.9177966
+  },
+  "lacey, washington": {
+    "lat": 47.0564054,
+    "lon": -122.768039
+  },
+  "mcminnville, oregon": {
+    "lat": 45.2100367,
+    "lon": -123.194463
+  },
+  "charlottesville, virginia": {
+    "lat": 38.029306,
+    "lon": -78.4766781
+  },
+  "pocatello, idaho": {
+    "lat": 42.8620287,
+    "lon": -112.450627
+  },
+  "brick, new jersey": {
+    "lat": 40.0478671,
+    "lon": -74.1160423
+  },
+  "lubbock, texas": {
+    "lat": 33.5918972,
+    "lon": -101.857394
+  },
+  "liberal, kansas": {
+    "lat": 37.0430812,
+    "lon": -100.920999
+  },
+  "washington, pennsylvania": {
+    "lat": 38.9007448,
+    "lon": -77.0440189
+  },
+  "wilmington, north carolina": {
+    "lat": 34.244152,
+    "lon": -77.8758805
+  },
+  "kaneohe, hawaii": {
+    "lat": 21.4055,
+    "lon": -157.7960716
+  },
+  "decatur, illinois": {
+    "lat": 39.8454163,
+    "lon": -88.9524151
+  },
+  "tuscaloosa, alabama": {
+    "lat": 33.2095614,
+    "lon": -87.5675258
+  },
+  "jamestown, new york": {
+    "lat": 42.097971,
+    "lon": -79.2413112
+  },
+  "racine, wisconsin": {
+    "lat": 42.718978,
+    "lon": -87.8196147
+  },
+  "university place, washington": {
+    "lat": 47.2068725,
+    "lon": -122.5034867
+  },
+  "newark, ohio": {
+    "lat": 40.0856537,
+    "lon": -82.4280858
+  },
+  "maricopa, arizona": {
+    "lat": 33.6658046,
+    "lon": -111.9736252
+  },
+  "iowa city, iowa": {
+    "lat": 41.6482876,
+    "lon": -91.5379502
+  },
+  "north las vegas, nevada": {
+    "lat": 36.2399621,
+    "lon": -115.1704163
+  },
+  "charleston, south carolina": {
+    "lat": 32.822891,
+    "lon": -80.0793847
+  },
+  "spring hill, tennessee": {
+    "lat": 35.751179,
+    "lon": -86.9300023
+  },
+  "evansville, indiana": {
+    "lat": 37.970495,
+    "lon": -87.5715641
+  },
+  "ewa beach, hawaii": {
+    "lat": 21.315603,
+    "lon": -158.008804
+  },
+  "harrisburg, pennsylvania": {
+    "lat": 40.263234,
+    "lon": -76.8690277
+  },
+  "greensboro, north carolina": {
+    "lat": 36.0485174,
+    "lon": -79.8361639
+  },
+  "mount prospect, illinois": {
+    "lat": 42.0664167,
+    "lon": -87.9372908
+  },
+  "prairie village, kansas": {
+    "lat": 38.9914109,
+    "lon": -94.6332768
+  },
+  "chandler, arizona": {
+    "lat": 33.2813947,
+    "lon": -111.8094713
+  },
+  "wichita, kansas": {
+    "lat": 37.6779565,
+    "lon": -97.2417076
+  },
+  "hoover, alabama": {
+    "lat": 33.4015022,
+    "lon": -86.8046688
+  },
+  "attleboro, massachusetts": {
+    "lat": 41.9439695,
+    "lon": -71.2804301
+  },
+  "murfreesboro, tennessee": {
+    "lat": 35.8518746,
+    "lon": -86.4329596
+  },
+  "fayetteville, north carolina": {
+    "lat": 35.0682199,
+    "lon": -78.9661161
+  },
+  "ogden, utah": {
+    "lat": 41.1624462,
+    "lon": -111.9382253
+  },
+  "inver grove heights, minnesota": {
+    "lat": 44.8648363,
+    "lon": -93.0404541
+  },
+  "brentwood, tennessee": {
+    "lat": 36.0325687,
+    "lon": -86.7825235
+  },
+  "high point, north carolina": {
+    "lat": 35.9950116,
+    "lon": -80.0311414
+  },
+  "westminster, maryland": {
+    "lat": 39.5751717,
+    "lon": -76.9959168
+  },
+  "cookeville, tennessee": {
+    "lat": 36.1474684,
+    "lon": -85.4994615
   }
 }
