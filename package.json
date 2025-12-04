@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@deck.gl/aggregation-layers": "^9.2.3",
+    "@deck.gl/core": "^9.2.3",
+    "@deck.gl/google-maps": "^9.2.3",
     "@google-cloud/bigquery": "^8.1.1",
     "@googlemaps/react-wrapper": "^1.2.0",
     "@react-google-maps/api": "^2.20.7",

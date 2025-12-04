@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import MapLegendPanel from './MapLegendPanel';
 import MapView from './MapView';
 
-const libraries = ['places', 'visualization'];
+const libraries = ['places'];
 import styles from './MapComponent.module.css';
 
 export default function MapComponent() {

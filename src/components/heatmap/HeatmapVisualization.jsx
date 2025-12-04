@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMapsOverlay } from '@deck.gl/google-maps';
+import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 import {
   parseVehicleCSV,
   aggregateByLocation,
@@ -23,7 +25,7 @@ const defaultCenter = {
   lng: -98.35,
 };
 
-const libraries = ['places', 'visualization'];
+const libraries = ['places'];
 
 export default function HeatmapVisualization() {
   const [vehicles, setVehicles] = useState([]);
@@ -32,7 +34,6 @@ export default function HeatmapVisualization() {
   const [regionFilter, setRegionFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [mapInstance, setMapInstance] = useState(null);
-  const heatmapLayerRef = useRef(null);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -97,9 +98,9 @@ export default function HeatmapVisualization() {
     return result;
   }, []);
 
-  // Compute aggregated locations and heatmap data
+  // Compute aggregated locations and heatmap data for deck.gl
   const { locations, maxVehicleCount, heatmapData } = useMemo(() => {
-    if (vehicles.length === 0 || !isLoaded || !window.google) {
+    if (vehicles.length === 0 || !isLoaded) {
       return { locations: [], maxVehicleCount: 1, heatmapData: [] };
     }
 
@@ -109,33 +110,25 @@ export default function HeatmapVisualization() {
       return match;
     });
 
-    console.log(`Region filter: ${regionFilter}, Total vehicles: ${vehicles.length}, Filtered: ${filteredVehicles.length}`);
-    
     const aggregated = aggregateByLocation(filteredVehicles);
-    console.log('Aggregated locations:', aggregated.length, aggregated.slice(0, 3));
-    
     const max = Math.max(...aggregated.map(loc => loc.totalVehicles), 1);
-    console.log('Max vehicle count:', max);
 
+    // For deck.gl, use plain objects: { location: { lat, lng }, weight }
     const data = selectedClass ? aggregated
-      .filter(location => {
-        return location.byClass[selectedClass] && location.byClass[selectedClass] > 0;
-      })
+      .filter(location => location.byClass[selectedClass] && location.byClass[selectedClass] > 0)
       .flatMap(location => {
         const count = location.byClass[selectedClass];
         const weight = getHeatmapIntensity(count, max);
         const pointCount = Math.max(1, Math.round(weight * 8));
-        
         return Array(pointCount).fill(0).map(() => ({
-          location: new window.google.maps.LatLng(
-            location.lat + (Math.random() - 0.5) * 0.1,
-            location.lng + (Math.random() - 0.5) * 0.1
-          ),
+          location: {
+            lat: location.lat + (Math.random() - 0.5) * 0.1,
+            lng: location.lng + (Math.random() - 0.5) * 0.1
+          },
           weight: weight * 100,
         }));
       }) : [];
 
-    console.log('Heatmap data points:', data.length, data.slice(0, 5));
     return { locations: aggregated, maxVehicleCount: max, heatmapData: data };
   }, [vehicles, selectedClass, regionFilter, isLoaded, getRegionMatch]);
 
@@ -144,40 +137,56 @@ export default function HeatmapVisualization() {
     setSelectedClass(vehicleClass);
   }, []);
 
-  // Update heatmap layer
-  useEffect(() => {
-    if (!mapInstance || !isLoaded) {
-      return;
-    }
 
-    // Remove old heatmap layer
-    if (heatmapLayerRef.current) {
-      heatmapLayerRef.current.setMap(null);
-      heatmapLayerRef.current = null;
-    }
+  // Deck.gl overlay integration
+  function DeckGlOverlay({ mapInstance, heatmapData, selectedClass, maxVehicleCount }) {
+    // Stable overlay instance
+    const deck = useMemo(() => new GoogleMapsOverlay({ layers: [] }), []);
 
-    // If no data or no selected class, just remove the layer and return
-    if (heatmapData.length === 0 || !selectedClass) {
-      console.log('No heatmap data or no selected class, layer removed');
-      return;
-    }
+    // Attach overlay to map
+    useEffect(() => {
+      if (mapInstance) {
+        deck.setMap(mapInstance);
+        return () => deck.setMap(null);
+      }
+    }, [mapInstance, deck]);
 
-    try {
-      // Create new heatmap layer with proper format
-      const heatmapLayer = new window.google.maps.visualization.HeatmapLayer({
-        data: heatmapData,
-        map: mapInstance,
-        radius: 100,
-        maxIntensity: 100,
-        dissipating: true ,
+    // Update heatmap layer when data/class changes
+    useEffect(() => {
+      if (!mapInstance || !heatmapData || heatmapData.length === 0) {
+        deck.setProps({ layers: [] });
+        return;
+      }
+
+      // Map data for deck.gl: [{ position: [lng, lat], weight }]
+      const deckData = heatmapData.map(d => ({
+        position: [d.location.lng, d.location.lat],
+        weight: d.weight
+      }));
+
+      const layer = new HeatmapLayer({
+        id: 'deck-heatmap-layer',
+        data: deckData,
+        getPosition: d => d.position,
+        getWeight: d => d.weight,
+        radiusPixels: 100,
+        intensity: 1,
+        threshold: 0.01,
+        colorRange: [
+          [0, 255, 128, 0],      // Transparent green
+          [0, 255, 0, 100],      // Light green
+          [255, 255, 0, 150],    // Yellow
+          [255, 200, 0, 200],    // Orange-yellow
+          [255, 100, 0, 230],    // Orange
+          [255, 0, 0, 255]       // Bright red
+        ],
+        aggregation: 'SUM'
       });
+      deck.setProps({ layers: [layer] });
+    }, [deck, heatmapData, selectedClass, maxVehicleCount, mapInstance]);
 
-      heatmapLayerRef.current = heatmapLayer;
-      console.log('Heatmap layer created successfully');
-    } catch (error) {
-      console.error('Error creating heatmap layer:', error);
-    }
-  }, [mapInstance, isLoaded, heatmapData, selectedClass]);
+    return null;
+  }
 
   // Fit map to bounds on initial load only
   const onMapLoad = useCallback((map) => {
@@ -223,7 +232,16 @@ export default function HeatmapVisualization() {
               streetViewControl: false,
               fullscreenControl: true,
             }}
-          />
+          >
+            {mapInstance && heatmapData.length > 0 && (
+              <DeckGlOverlay
+                mapInstance={mapInstance}
+                heatmapData={heatmapData}
+                selectedClass={selectedClass}
+                maxVehicleCount={maxVehicleCount}
+              />
+            )}
+          </GoogleMap>
         </div>
 
         <div className={styles.sidebar}>
