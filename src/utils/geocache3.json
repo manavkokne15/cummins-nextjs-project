@@ -1308,5 +1308,73 @@
   "portsmouth, virginia": {
     "lat": 36.8320081,
     "lon": -76.297699
+  },
+  "blacksburg, virginia": {
+    "lat": 37.2063038,
+    "lon": -80.3980737
+  },
+  "kissimmee, florida": {
+    "lat": 28.3038556,
+    "lon": -81.4167352
+  },
+  "oklahoma city, oklahoma": {
+    "lat": 35.4646455,
+    "lon": -97.5343112
+  },
+  "west bend, wisconsin": {
+    "lat": 43.4252776,
+    "lon": -88.1834277
+  },
+  "plano, texas": {
+    "lat": 33.079005,
+    "lon": -96.730587
+  },
+  "bayonne, new jersey": {
+    "lat": 40.6687141,
+    "lon": -74.1143091
+  },
+  "lincoln, nebraska": {
+    "lat": 40.8452094,
+    "lon": -96.739953
+  },
+  "colchester, vermont": {
+    "lat": 44.534084,
+    "lon": -73.1846098
+  },
+  "norfolk, virginia": {
+    "lat": 36.9148424,
+    "lon": -76.2477311
+  },
+  "naperville, illinois": {
+    "lat": 41.7728699,
+    "lon": -88.1479278
+  },
+  "coeur d'alene, idaho": {
+    "lat": 47.727536,
+    "lon": -116.8359199
+  },
+  "peoria, illinois": {
+    "lat": 40.6938609,
+    "lon": -89.5891008
+  },
+  "north kingstown, rhode island": {
+    "lat": 41.5514283,
+    "lon": -71.4693875
+  },
+  "elk grove, california": {
+    "lat": 38.4087993,
+    "lon": -121.3716178
+  },
+  "kihei, hawaii": {
+    "lat": 20.7476261,
+    "lon": -156.4549898
+  },
+  "jackson, wyoming": {
+    "lat": 43.479965,
+    "lon": -110.761815
+  },
+  "middletown, delaware": {
+    "lat": 39.4497639,
+    "lon": -75.7166345
   }
 }
