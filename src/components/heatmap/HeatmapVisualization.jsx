@@ -30,8 +30,11 @@ export default function HeatmapVisualization() {
   const [vehicleClasses, setVehicleClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
   const [regionFilter, setRegionFilter] = useState('all');
+  const [stateFilter, setStateFilter] = useState('all');
+  const [selectedFuel, setSelectedFuel] = useState('CNG');
   const [loading, setLoading] = useState(true);
   const [mapInstance, setMapInstance] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const heatmapLayerRef = useRef(null);
 
   const { isLoaded } = useJsApiLoader({
@@ -63,8 +66,8 @@ export default function HeatmapVisualization() {
   }, []);
 
   // Region mapping for US states
-  const getRegionMatch = useCallback((state, selectedRegion) => {
-    if (!selectedRegion || selectedRegion === 'all' || !state) return true;
+  const getRegionMatch = useCallback((state, selectedRegion, selectedState) => {
+    if (!state) return false;
     
     // Convert full state name to state code
     const stateNameToCode = {
@@ -84,15 +87,27 @@ export default function HeatmapVisualization() {
     const stateName = state.trim();
     const stateCode = stateNameToCode[stateName] || stateName.toUpperCase();
     
-    // US Regions mapping
-    const regions = {
-      northeast: ['CT', 'ME', 'MA', 'NH', 'RI', 'VT', 'NJ', 'NY', 'PA'],
-      southeast: ['DE', 'FL', 'GA', 'MD', 'NC', 'SC', 'VA', 'WV', 'AL', 'KY', 'MS', 'TN', 'AR', 'LA'],
-      midwest: ['IL', 'IN', 'MI', 'OH', 'WI', 'IA', 'KS', 'MN', 'MO', 'NE', 'ND', 'SD'],
-      southwest: ['AZ', 'NM', 'OK', 'TX'],
-      west: ['AK', 'CA', 'CO', 'HI', 'ID', 'MT', 'NV', 'OR', 'UT', 'WA', 'WY']
-    };
+    // If specific state is selected, only match that state
+    if (selectedState && selectedState !== 'all') {
+      return stateCode === selectedState.toUpperCase();
+    }
     
+    // If no region selected, show all
+    if (!selectedRegion || selectedRegion === 'all') return true;
+    
+    // US Regions mapping (Census divisions per provided image)
+    const regions = {
+      new_england: ['CT', 'ME', 'MA', 'NH', 'RI', 'VT'],
+      mid_atlantic: ['NJ', 'NY', 'PA'],
+      east_north_central: ['IL', 'IN', 'MI', 'OH', 'WI'],
+      west_north_central: ['IA', 'KS', 'MN', 'MO', 'NE', 'ND', 'SD'],
+      south_atlantic: ['DE', 'DC', 'FL', 'GA', 'MD', 'NC', 'SC', 'VA', 'WV'],
+      east_south_central: ['AL', 'KY', 'MS', 'TN'],
+      west_south_central: ['AR', 'LA', 'OK', 'TX'],
+      mountain: ['AZ', 'CO', 'ID', 'MT', 'NV', 'NM', 'UT', 'WY'],
+      pacific: ['AK', 'CA', 'HI', 'OR', 'WA']
+    };
+
     const result = regions[selectedRegion]?.includes(stateCode) || false;
     return result;
   }, []);
@@ -103,10 +118,11 @@ export default function HeatmapVisualization() {
       return { locations: [], maxVehicleCount: 1, heatmapData: [] };
     }
 
-    // Filter vehicles by region first
+    // Filter vehicles by region, state, and fuel type
     const filteredVehicles = vehicles.filter(vehicle => {
-      const match = getRegionMatch(vehicle.state, regionFilter);
-      return match;
+      const regionMatch = getRegionMatch(vehicle.state, regionFilter, stateFilter);
+      const fuelMatch = vehicle.fuelType === selectedFuel;
+      return regionMatch && fuelMatch;
     });
 
     console.log(`Region filter: ${regionFilter}, Total vehicles: ${vehicles.length}, Filtered: ${filteredVehicles.length}`);
@@ -137,11 +153,21 @@ export default function HeatmapVisualization() {
 
     console.log('Heatmap data points:', data.length, data.slice(0, 5));
     return { locations: aggregated, maxVehicleCount: max, heatmapData: data };
-  }, [vehicles, selectedClass, regionFilter, isLoaded, getRegionMatch]);
+  }, [vehicles, selectedClass, regionFilter, stateFilter, selectedFuel, isLoaded, getRegionMatch]);
 
   // Handle class selection (single class only)
   const selectClass = useCallback((vehicleClass) => {
     setSelectedClass(vehicleClass);
+  }, []);
+
+  // Handle fuel type selection (single fuel only)
+  const selectFuel = useCallback((fuelType) => {
+    setSelectedFuel(fuelType);
+    // When EV is selected, reset region to 'all' to show all states
+    if (fuelType === 'EV') {
+      setRegionFilter('all');
+      setStateFilter('all');
+    }
   }, []);
 
   // Update heatmap layer
@@ -239,31 +265,22 @@ export default function HeatmapVisualization() {
                     onChange={() => selectClass(vehicleClass)}
                     className={styles.radio}
                   />
-                  <span className={styles.colorDot} style={{ backgroundColor: getClassColor(vehicleClass) }}></span>
                   <span className={styles.labelText}>
-                    Class {vehicleClass} - ({getVehicleTypeDescription(vehicleClass)})
+                    {vehicleClass === '6' ? 'Medium Duty' : vehicleClass === '7' ? 'Heavy Duty' : 'Bus'}
                   </span>
                 </label>
               ))}
             </div>
           </div>
 
-          <div className={styles.filterSection}>
-            <h3 className={styles.filterTitle}>Region Filter</h3>
-            <div className={styles.filterOptions}>
-              <select
-                className={styles.regionSelect}
-                value={regionFilter}
-                onChange={(e) => setRegionFilter(e.target.value)}
-              >
-                <option value="all">All Regions</option>
-                <option value="northeast">Northeast</option>
-                <option value="southeast">Southeast</option>
-                <option value="midwest">Midwest</option>
-                <option value="southwest">Southwest</option>
-                <option value="west">West</option>
-              </select>
-            </div>
+          <div className={styles.filterTriggerSection}>
+            <button 
+              className={styles.filterTriggerButton}
+              onClick={() => setIsFilterOpen(true)}
+            >
+              <span>🔍</span>
+              <span>Filter Options</span>
+            </button>
           </div>
 
           <div className={styles.statsSection}>
@@ -291,6 +308,239 @@ export default function HeatmapVisualization() {
           </div>
         </div>
       </div>
+
+      {/* Filter Slide Panel */}
+      {isFilterOpen && (
+        <div className={styles.filterOverlay} onClick={() => setIsFilterOpen(false)}>
+          <div 
+            className={`${styles.filterSlidePanel} ${isFilterOpen ? styles.open : ''}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.filterPanelHeader}>
+              <h3 className={styles.filterPanelTitle}>Filters</h3>
+              <button 
+                className={styles.closeButton}
+                onClick={() => setIsFilterOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className={styles.filterPanelContent}>
+              {/* Region Filter */}
+              <div className={styles.filterGroup}>
+                <h4 className={styles.filterGroupTitle}>Region</h4>
+                <div className={styles.filterItems}>
+                  <select
+                    className={styles.filterSelect}
+                    value={regionFilter}
+                    onChange={(e) => {
+                      setRegionFilter(e.target.value);
+                      setStateFilter('all'); // Reset state when region changes
+                    }}
+                    disabled={selectedFuel === 'EV'}
+                  >
+                    <option value="all">All Regions</option>
+                    <option value="new_england">New England</option>
+                    <option value="mid_atlantic">Mid-Atlantic</option>
+                    <option value="east_north_central">East North Central</option>
+                    <option value="west_north_central">West North Central</option>
+                    <option value="south_atlantic">South Atlantic</option>
+                    <option value="east_south_central">East South Central</option>
+                    <option value="west_south_central">West South Central</option>
+                    <option value="mountain">Mountain</option>
+                    <option value="pacific">Pacific</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* State Filter */}
+              <div className={styles.filterGroup}>
+                <h4 className={styles.filterGroupTitle}>State</h4>
+                <div className={styles.filterItems}>
+                  <select
+                    className={styles.filterSelect}
+                    value={stateFilter}
+                    onChange={(e) => setStateFilter(e.target.value)}
+                    disabled={selectedFuel === 'CNG' && regionFilter === 'all'}
+                  >
+                    <option value="all">{selectedFuel === 'EV' ? 'All States' : (regionFilter === 'all' ? 'Select a region first' : 'All States in Region')}</option>
+                    {selectedFuel === 'EV' && (
+                      <>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                      </>
+                    )}
+                    {regionFilter === 'new_england' && (
+                      <>
+                        <option value="CT">Connecticut</option>
+                        <option value="ME">Maine</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="VT">Vermont</option>
+                      </>
+                    )}
+                    {regionFilter === 'mid_atlantic' && (
+                      <>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NY">New York</option>
+                        <option value="PA">Pennsylvania</option>
+                      </>
+                    )}
+                    {regionFilter === 'east_north_central' && (
+                      <>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="MI">Michigan</option>
+                        <option value="OH">Ohio</option>
+                        <option value="WI">Wisconsin</option>
+                      </>
+                    )}
+                    {regionFilter === 'west_north_central' && (
+                      <>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MO">Missouri</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="SD">South Dakota</option>
+                      </>
+                    )}
+                    {regionFilter === 'south_atlantic' && (
+                      <>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="MD">Maryland</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WV">West Virginia</option>
+                      </>
+                    )}
+                    {regionFilter === 'east_south_central' && (
+                      <>
+                        <option value="AL">Alabama</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="TN">Tennessee</option>
+                      </>
+                    )}
+                    {regionFilter === 'west_south_central' && (
+                      <>
+                        <option value="AR">Arkansas</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="TX">Texas</option>
+                      </>
+                    )}
+                    {regionFilter === 'mountain' && (
+                      <>
+                        <option value="AZ">Arizona</option>
+                        <option value="CO">Colorado</option>
+                        <option value="ID">Idaho</option>
+                        <option value="MT">Montana</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="UT">Utah</option>
+                        <option value="WY">Wyoming</option>
+                      </>
+                    )}
+                    {regionFilter === 'pacific' && (
+                      <>
+                        <option value="AK">Alaska</option>
+                        <option value="CA">California</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="OR">Oregon</option>
+                        <option value="WA">Washington</option>
+                      </>
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              {/* Fuel Type Filter */}
+              <div className={styles.filterGroup}>
+                <h4 className={styles.filterGroupTitle}>Fuel Type</h4>
+                <div className={styles.filterItems}>
+                  <label className={styles.panelFilterLabel}>
+                    <input
+                      type="radio"
+                      name="fuelType"
+                      className={styles.filterRadio}
+                      checked={selectedFuel === 'CNG'}
+                      onChange={() => selectFuel('CNG')}
+                    />
+                    <span>CNG (Compressed Natural Gas)</span>
+                  </label>
+                  <label className={styles.panelFilterLabel}>
+                    <input
+                      type="radio"
+                      name="fuelType"
+                      className={styles.filterRadio}
+                      checked={selectedFuel === 'EV'}
+                      onChange={() => selectFuel('EV')}
+                    />
+                    <span>EV (Electric Vehicle)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

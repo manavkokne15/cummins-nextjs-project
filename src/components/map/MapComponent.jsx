@@ -20,12 +20,10 @@ export default function MapComponent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [filters, setFilters] = useState({
-    elec: false,    
-    cng: true,
-  });
-
+  const [selectedFuelType, setSelectedFuelType] = useState('all');
+  const [stationStatusFilter, setStationStatusFilter] = useState('all');
   const [regionFilter, setRegionFilter] = useState('all');
+  const [stateFilter, setStateFilter] = useState('all');
   const [ownershipFilter, setOwnershipFilter] = useState('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -68,43 +66,65 @@ export default function MapComponent() {
   };
 
   // Region mapping for US states
-  const getRegionMatch = (station, selectedRegion) => {
-    if (!selectedRegion || selectedRegion === 'all' || !station.state) return true;
+  const getRegionMatch = (station, selectedRegion, selectedState) => {
+    if (!station.state) return false;
     
     const stateCode = station.state.toUpperCase();
     
+    // If specific state is selected, only match that state
+    if (selectedState && selectedState !== 'all') {
+      return stateCode === selectedState.toUpperCase();
+    }
+    
+    // If no region selected, show all
+    if (!selectedRegion || selectedRegion === 'all') return true;
+    
     // US Regions mapping
     const regions = {
-      northeast: ['CT', 'ME', 'MA', 'NH', 'RI', 'VT', 'NJ', 'NY', 'PA'],
-      southeast: ['DE', 'FL', 'GA', 'MD', 'NC', 'SC', 'VA', 'WV', 'AL', 'KY', 'MS', 'TN', 'AR', 'LA'],
-      midwest: ['IL', 'IN', 'MI', 'OH', 'WI', 'IA', 'KS', 'MN', 'MO', 'NE', 'ND', 'SD'],
-      southwest: ['AZ', 'NM', 'OK', 'TX'],
-      west: ['AK', 'CA', 'CO', 'HI', 'ID', 'MT', 'NV', 'OR', 'UT', 'WA', 'WY']
+      new_england: ['CT', 'ME', 'MA', 'NH', 'RI', 'VT'],
+      mid_atlantic: ['NJ', 'NY', 'PA'],
+      east_north_central: ['IL', 'IN', 'MI', 'OH', 'WI'],
+      west_north_central: ['IA', 'KS', 'MN', 'MO', 'NE', 'ND', 'SD'],
+      south_atlantic: ['DE', 'DC', 'FL', 'GA', 'MD', 'NC', 'SC', 'VA', 'WV'],
+      east_south_central: ['AL', 'KY', 'MS', 'TN'],
+      west_south_central: ['AR', 'LA', 'OK', 'TX'],
+      mountain: ['AZ', 'CO', 'ID', 'MT', 'NV', 'NM', 'UT', 'WY'],
+      pacific: ['AK', 'CA', 'HI', 'OR', 'WA']
     };
-    
+
     return regions[selectedRegion]?.includes(stateCode) || false;
   };
 
   const filteredStations = stations.filter((s) => {
     // Fuel type filter
     const fuelKey = getFuelTypeKey(s.fuel_type);
-    const fuelMatch = filters[fuelKey] !== undefined ? filters[fuelKey] : true;
+    const fuelMatch = selectedFuelType === 'all' || fuelKey === selectedFuelType;
     
-    // Region filter (by US geographic regions)
-    const regionMatch = getRegionMatch(s, regionFilter);
+    // Station status filter
+    const statusMatch = stationStatusFilter === 'all' || 
+      (stationStatusFilter === 'available' && s.status_code === 'E') ||
+      (stationStatusFilter === 'planned' && s.status_code === 'P');
+    
+    // Region and state filter
+    const regionMatch = getRegionMatch(s, regionFilter, stateFilter);
     
     // Ownership filter
     const ownershipMatch = ownershipFilter === 'all' || 
       s.access_code?.toLowerCase() === ownershipFilter.toLowerCase();
     
-    return fuelMatch && regionMatch && ownershipMatch;
+    return fuelMatch && statusMatch && regionMatch && ownershipMatch;
   });
 
   // Removed auto-zoom functionality - map stays at default US center view
   // Stations are filtered but map doesn't zoom to specific regions
 
-  const toggleFilter = (fuel) => {
-    setFilters((prev) => ({ ...prev, [fuel]: !prev[fuel] }));
+  const selectFuelType = (fuelType) => {
+    setSelectedFuelType(fuelType);
+    // When ELEC is selected, reset region to 'all' to show all states
+    if (fuelType === 'elec') {
+      setRegionFilter('all');
+      setStateFilter('all');
+    }
   };
 
   if (!isLoaded) return (
@@ -146,10 +166,14 @@ export default function MapComponent() {
 
         <div className={styles.sidebar}>
           <MapLegendPanel 
-            filters={filters}
-            toggleFilter={toggleFilter}
+            selectedFuelType={selectedFuelType}
+            selectFuelType={selectFuelType}
+            stationStatusFilter={stationStatusFilter}
+            setStationStatusFilter={setStationStatusFilter}
             regionFilter={regionFilter}
             setRegionFilter={setRegionFilter}
+            stateFilter={stateFilter}
+            setStateFilter={setStateFilter}
             ownershipFilter={ownershipFilter}
             setOwnershipFilter={setOwnershipFilter}
             stationCount={filteredStations.length}
