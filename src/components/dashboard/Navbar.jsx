@@ -12,10 +12,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles.navbar} flex items-center justify-between h-16 px-8 bg-white sticky top-0 z-[1000] gap-6`}>
       {/* Left Section - Logo */}
-      <div className={styles.navLeft}>
-        <Link href="/dashboard" className={styles.logo}>
+      <div className={`${styles.navLeft} flex items-center min-w-60`}>
+        <Link href="/dashboard" className={`${styles.logo} flex items-center gap-2 no-underline cursor-pointer transition-transform duration-200 hover:scale-105`}>
           <svg
             className={styles.logoIcon}
             viewBox="0 0 40 40"
@@ -56,7 +56,7 @@ export default function Navbar() {
       </button>
 
       {/* Center Section - Navigation Links */}
-      <div className={`${styles.navCenter} ${isMenuOpen ? styles.active : ""}`}>
+      <div className={`${styles.navCenter} flex items-center gap-2 ${isMenuOpen ? styles.active : ""}`}>
         <Link
           href="/dashboard/heatmap"
           className={styles.navLink}

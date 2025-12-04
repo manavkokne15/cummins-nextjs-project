@@ -4,7 +4,7 @@
  */
 export async function parseVehicleCSV() {
   try {
-    const response = await fetch('/vehicle_demo_data.csv');
+    const response = await fetch('/vehicle_demo_data_enhanced.csv');
     const csvText = await response.text();
     
     const lines = csvText.split('\n');
@@ -28,10 +28,13 @@ export async function parseVehicleCSV() {
         vehicleClass: record.Vehicle_Class,
         vehicleType: record.Vehicle_Type,
         fuelType: record.Fuel_Type,
+        region: record.Region,
+        concentrationType: parseInt(record.Concentration_Type),
+        concentrationDescription: record.Concentration_Description,
       });
     }
     
-    console.log('CSV parsed successfully:', data.length, 'records', data.slice(0, 3));
+    console.log('Enhanced CSV parsed successfully:', data.length, 'records', data.slice(0, 3));
     return data;
   } catch (error) {
     console.error('Error parsing CSV:', error);
@@ -190,16 +193,21 @@ export function getCityCoordinates(city, state) {
 }
 
 /**
- * Aggregate vehicle data by location
+ * Aggregate vehicle data by location with concentration info
  * @param {Array} vehicles - Vehicle records
- * @returns {Array} Aggregated data with coordinates
+ * @param {string} selectedClass - Selected vehicle class
+ * @param {string} selectedRegion - Selected region (optional)
+ * @returns {Array} Aggregated data with coordinates and concentration
  */
-export function aggregateByLocation(vehicles) {
+export function aggregateByLocation(vehicles, selectedClass = null, selectedRegion = null) {
   const locationMap = new Map();
   
   vehicles.forEach(vehicle => {
     const coords = getCityCoordinates(vehicle.city, vehicle.state);
     if (!coords) return;
+    
+    // Filter by selected region if specified
+    if (selectedRegion && vehicle.region !== selectedRegion) return;
     
     const key = `${vehicle.city},${vehicle.state}`;
     
@@ -207,9 +215,11 @@ export function aggregateByLocation(vehicles) {
       locationMap.set(key, {
         city: vehicle.city,
         state: vehicle.state,
+        region: vehicle.region,
         lat: coords.lat,
         lng: coords.lng,
         byClass: {},
+        concentrationByClass: {},
         totalVehicles: 0,
       });
     }
@@ -219,6 +229,7 @@ export function aggregateByLocation(vehicles) {
     
     if (!location.byClass[classType]) {
       location.byClass[classType] = 0;
+      location.concentrationByClass[classType] = vehicle.concentrationType;
     }
     
     location.byClass[classType] += vehicle.vehicleCount;
@@ -242,11 +253,18 @@ export function getUniqueVehicleClasses(vehicles) {
 }
 
 /**
- * Get color for vehicle class
+ * Get color for vehicle class or concentration
  * @param {string} vehicleClass - Vehicle class number (6, 7, 8)
+ * @param {number} concentrationType - Optional concentration type for color override
  * @returns {string} Hex color code
  */
-export function getClassColor(vehicleClass) {
+export function getClassColor(vehicleClass, concentrationType = null) {
+  // If concentration type is provided, use concentration colors
+  if (concentrationType !== null) {
+    return getConcentrationColor(concentrationType);
+  }
+  
+  // Default class colors for multi-class view
   const colorMap = {
     '6': '#10b981',     // Bright Green - Medium Duty
     '7': '#f59e0b',     // Bright Orange - Heavy-Medium Duty
@@ -269,6 +287,51 @@ export function getVehicleTypeDescription(vehicleClass) {
   };
   
   return typeMap[vehicleClass] || 'Unknown';
+}
+
+/**
+ * Get unique regions from dataset
+ * @param {Array} vehicles - Vehicle records
+ * @returns {Array} Unique regions
+ */
+export function getUniqueRegions(vehicles) {
+  const regions = new Set();
+  vehicles.forEach(v => {
+    if (v.region) regions.add(v.region);
+  });
+  return Array.from(regions).sort();
+}
+
+/**
+ * Get concentration color based on type (seamless gradient approach)
+ * @param {number} concentrationType - 0: Highly Concentrated, 1: Substantially Concentrated, 2: National
+ * @returns {string} Hex color code
+ */
+export function getConcentrationColor(concentrationType) {
+  const colorMap = {
+    0: '#ef4444',  // Red - Highly Concentrated
+    1: '#eab308',  // Yellow - Substantially Concentrated  
+    2: '#22c55e',  // Green - National
+    null: '#3b82f6', // Blue - Not present
+  };
+  
+  return colorMap[concentrationType] || '#3b82f6';
+}
+
+/**
+ * Get concentration description
+ * @param {number} concentrationType - Concentration type number
+ * @returns {string} Description
+ */
+export function getConcentrationDescription(concentrationType) {
+  const descriptionMap = {
+    0: 'Highly Concentrated',
+    1: 'Substantially Concentrated', 
+    2: 'National',
+    null: 'Not Present'
+  };
+  
+  return descriptionMap[concentrationType] || 'Not Present';
 }
 
 /**
